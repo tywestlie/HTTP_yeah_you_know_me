@@ -1,33 +1,15 @@
 require 'socket'
-tcp_server = TCPServer.new(9292)
-puts "Ready for a request"
-client = tcp_server.accept
-count = 0
+class Server
 
-while count < 10
+  def intialize
+    @server = TCPServer.new(9292)
+    @client = server.accept
+  end
 
-request_lines = []
-while line = client.gets and !line.chomp.empty?
-  request_lines << line.chomp
-end
-
-puts "Got this request:"
-puts request_lines.inspect
-
-puts "Sending response."
-response = "<pre>" + "Hello World (#{count})" + "</pre>"
-output = "<html><head></head><body>#{response}</body></html>"
-headers = ["http/1.1 200 ok",
-          "date: #{Time.now.strftime('%a, %e %b %Y %H:%M:%S %z')}",
-          "server: ruby",
-          "content-type: text/html; charset=iso-8859-1",
-          "content-length: #{output.length}\r\n\r\n"].join("\r\n")
-client.puts headers
-client.puts output
-
-puts ["Wrote this response:", "Hello World"].join("\n")
-client.close
-puts "\nResponse complete, exiting."
-count += 1
+  def request_line
+    request_lines = []
+    while line = client.gets and !line.chomp.empty?
+    request_lines << line.chomp
+  end
 
 end
