@@ -8,18 +8,16 @@ class Server
 
   def request_line(server)
     counter = 0
-    while counter =< 5 do
-      puts "Ready for a request"
+    while counter <= 5 do
       client = server.accept
-      req = request_lines(client)
+      request = request_lines(client)
       puts "Got this request:"
-      puts req.inspect
+      puts request.inspect
       puts "Sending response."
       response = "<h1> Hello! #{counter}</h1>"
       message = assemble_message(response)
       client.puts message
       client.close
-      puts "\nResponse complete, exiting."
       counter +=1
     end
   end
