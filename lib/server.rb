@@ -1,18 +1,19 @@
 require 'socket'
 class Server
-
+  attr_reader :request
   def initialize
     server = TCPServer.new(9292)
-    request_line(server)
+    server_loop(server)
+    @request = []
   end
 
-  def request_line(server)
-    counter = 0
-    while counter <= 5 do
+  def server_loop(server)
+    counter = 1
+    loop do
       client = server.accept
-      request = request_lines(client)
+      @request = request_lines(client)
       puts "Got this request:"
-      puts request.inspect
+      puts @request.inspect
       puts "Sending response."
       response = "<h1> Hello! #{counter}</h1>"
       message = assemble_message(response)
@@ -21,6 +22,13 @@ class Server
       counter +=1
     end
   end
+
+  # def diagnostic
+  #   require 'pry'; binding.pry
+  #   part1 = @request[0]
+  #   part2 = @request[1..-1]
+  #   part1
+  # end
 
   def assemble_message(response)
     output = "<html><head></head><body>#{response}</body></html>"
@@ -41,6 +49,5 @@ class Server
   end
 
 end
-
 
 s = Server.new
