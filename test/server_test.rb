@@ -8,5 +8,11 @@ class ServerTest < Minitest::Test
     server = Server.new
     assert_instance_of Server, server
   end
-  
+
+  def test_assemble_message
+    server = Server.new
+
+    assert_equal "Hello World 1", server
+  end
+
 end

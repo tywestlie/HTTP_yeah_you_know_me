@@ -1,21 +1,24 @@
 require 'socket'
+require './lib/parser'
+
 class Server
-  attr_reader :request, :counter
+  attr_reader :request
 
   def initialize
     server = TCPServer.new(9292)
+    @parser = Parser.new
     server_loop(server)
     @request = []
   end
 
   def server_loop(server)
+    counter = 1
     loop do
-      counter = 1
       client = server.accept
       @request = request_lines(client)
       puts @request.inspect
       verb_path = @request[0].split[0] + ' ' + @request[0].split[1]
-      get_response = response_path(verb_path)
+      get_response = response_path(verb_path, counter)
       response = "<h1> #{get_response}</h1>"
       message = assemble_message(response)
       client.puts message
@@ -34,11 +37,11 @@ class Server
       headers + output
   end
 
-  def response_path(verb_path)
+  def response_path(verb_path, counter)
     if verb_path == "GET /"
       "Hello World #{counter}"
     else verb_path == "GET /debug"
-      puts "diagnostics"
+      "#{@parser.diagnostic}"
     end
   end
 
