@@ -21,34 +21,34 @@ class Parser
   def diagnostic
   end
 
-  def verb
-    "Verb: #{@request[0].split[0]}\n"
-  end
-
-  def path
-    "Path: #{@request[0].split[1]}\n"
-  end
-
-  def protocol
-    "Protocol: #{@request[0].split[2]}\n"
-  end
-
-  def host
-    host = @request[1].split(':')
-    "Host: #{host[1]}\n"
-  end
-
-  def port
-    port = @request[1].split(':')
-    "Port: #{port[-1]}\n"
-  end
+  # def verb
+  #   "Verb: #{@request[0].split[0]}\n"
+  # end
+  #
+  # def path
+  #   "Path: #{@request[0].split[1]}\n"
+  # end
+  #
+  # def protocol
+  #   "Protocol: #{@request[0].split[2]}\n"
+  # end
+  #
+  # def host
+  #   host = @request[1].split(':')
+  #   "Host: #{host[1]}\n"
+  # end
+  #
+  # def port
+  #   port = @request[1].split(':')
+  #   "Port: #{port[-1]}\n"
+  # end
 
   # def origin
   #   "Origin: #{@request[]}"
   # end
 
-  def accept
-    "Accept: #{@request[6]}\n"
-  end
-
-end
+#   def accept
+#     "Accept: #{@request[6]}\n"
+#   end
+#
+# end

@@ -1,6 +1,6 @@
 require 'socket'
 class Server
-  attr_reader :request
+  attr_reader :request, :counter
 
   def initialize
     server = TCPServer.new(9292)
@@ -9,17 +9,18 @@ class Server
   end
 
   def server_loop(server)
-    counter = 1
     loop do
+      counter = 1
       client = server.accept
       @request = request_lines(client)
       puts @request.inspect
-      require 'pry'; binding.pry
-      get_response = response_path(@request[0])
+      verb_path = @request[0].split[0] + ' ' + @request[0].split[1]
+      get_response = response_path(verb_path)
       response = "<h1> #{get_response}</h1>"
       message = assemble_message(response)
       client.puts message
       client.close
+      counter += 1
     end
   end
 
@@ -33,14 +34,13 @@ class Server
       headers + output
   end
 
-  # def response_path(verb_path)
-  #   if verb_path == "GET /"
-  #     "Hello World #{counter}"
-  #     counter +=1
-  #   else verb_path == "GET /debug"
-  #     puts "diagnostics"
-  #   end
-  # end
+  def response_path(verb_path)
+    if verb_path == "GET /"
+      "Hello World #{counter}"
+    else verb_path == "GET /debug"
+      puts "diagnostics"
+    end
+  end
 
   def request_lines(client)
     request_lines = []
