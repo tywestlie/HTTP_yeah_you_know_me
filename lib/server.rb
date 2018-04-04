@@ -6,7 +6,6 @@ class Server
 
   def initialize
     server = TCPServer.new(9292)
-    @parser = Parser.new
     server_loop(server)
     @request = []
   end
@@ -41,7 +40,8 @@ class Server
     if verb_path == "GET /"
       "Hello World #{counter}"
     else verb_path == "GET /debug"
-      "#{@parser.diagnostic}"
+      parser = Parser.new(@request)
+      "#{parser.diagnostic}"
     end
   end
 
@@ -54,5 +54,3 @@ class Server
   end
 
 end
-
-s = Server.new
