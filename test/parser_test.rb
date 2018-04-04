@@ -3,10 +3,13 @@ require 'minitest/pride'
 require './lib/parser.rb'
 
 class ParserTest < Minitest::Test
+
   def setup
-    @test = Server.new
+    @test = Parser.new
   end
+
   def test_verb
-    
+    assert_equal 0, @test.verb
   end
+  
 end

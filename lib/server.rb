@@ -1,6 +1,7 @@
 require 'socket'
 class Server
   attr_reader :request
+
   def initialize
     server = TCPServer.new(9292)
     server_loop(server)
@@ -12,23 +13,15 @@ class Server
     loop do
       client = server.accept
       @request = request_lines(client)
-      puts "Got this request:"
       puts @request.inspect
-      puts "Sending response."
-      response = "<h1> Hello! #{counter}</h1>"
+      require 'pry'; binding.pry
+      get_response = response_path(@request[0])
+      response = "<h1> #{get_response}</h1>"
       message = assemble_message(response)
       client.puts message
       client.close
-      counter +=1
     end
   end
-
-  # def diagnostic
-  #   require 'pry'; binding.pry
-  #   part1 = @request[0]
-  #   part2 = @request[1..-1]
-  #   part1
-  # end
 
   def assemble_message(response)
     output = "<html><head></head><body>#{response}</body></html>"
@@ -39,6 +32,15 @@ class Server
       "content-length: #{output.length}\r\n\r\n"].join("\r\n")
       headers + output
   end
+
+  # def response_path(verb_path)
+  #   if verb_path == "GET /"
+  #     "Hello World #{counter}"
+  #     counter +=1
+  #   else verb_path == "GET /debug"
+  #     puts "diagnostics"
+  #   end
+  # end
 
   def request_lines(client)
     request_lines = []
