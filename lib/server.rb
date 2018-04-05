@@ -15,7 +15,6 @@ class Server
     loop do
       client = server.accept
       @request = request_lines(client)
-      puts @request.inspect
       verb_path = @request[0].split[0] + ' ' + @request[0].split[1]
       get_response = response_path(verb_path, counter)
       response = "<pre>#{get_response}</pre>"
@@ -23,6 +22,7 @@ class Server
       client.puts message
       client.close
       counter += 1
+      break if verb_path == "GET /shutdown"
     end
   end
 
@@ -45,7 +45,7 @@ class Server
     elsif verb_path == "GET /datetime"
       "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
     else verb_path == "GET /shutdown"
-    
+      "Shuting down, total Requests:#{counter}"
     end
   end
 
