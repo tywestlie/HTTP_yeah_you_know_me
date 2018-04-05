@@ -45,7 +45,7 @@ class Server
     elsif verb_path == "GET /datetime"
       "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
     else verb_path == "GET /shutdown"
-      
+    
     end
   end
 
