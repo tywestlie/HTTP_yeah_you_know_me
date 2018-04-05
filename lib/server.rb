@@ -18,7 +18,7 @@ class Server
       puts @request.inspect
       verb_path = @request[0].split[0] + ' ' + @request[0].split[1]
       get_response = response_path(verb_path, counter)
-      response = "<h1> #{get_response}</h1>"
+      response = "<pre>#{get_response}</pre>"
       message = assemble_message(response)
       client.puts message
       client.close
@@ -38,10 +38,14 @@ class Server
 
   def response_path(verb_path, counter)
     if verb_path == "GET /"
-      "Hello World #{counter}"
-    else verb_path == "GET /debug"
       parser = Parser.new(@request)
       "#{parser.diagnostic}"
+    elsif verb_path == "GET /hello"
+      "Hello World #{counter}"
+    elsif verb_path == "GET /datetime"
+      "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
+    else verb_path == "GET /shutdown"
+      
     end
   end
 
