@@ -29,7 +29,6 @@ class Parser
     diagnostic_lines.each do |key,value|
       a  << "#{key} #{value}" + "\n"
     end
-    puts a
     a
   end
 
