@@ -50,7 +50,7 @@ class Server
       "#{hello_world}"
     elsif verb_path == "GET /datetime"
       "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
-    else verb_path == "GET /shutdown"
+    elsif verb_path == "GET /shutdown"
       "Shuting down, total Requests:#{counter}"
     end
   end

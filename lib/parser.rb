@@ -25,11 +25,11 @@ class Parser
   end
 
   def diagnostic
-    a = ""
-    diagnostic_lines.each do |key,value|
-      a  << "#{key} #{value}" + "\n"
+    diagnostic_string = ""
+    diagnostic_lines.each do |name,value|
+      diagnostic_string  << "#{name} #{value}" + "\n"
     end
-    a
+    diagnostic_string
   end
 
 end
