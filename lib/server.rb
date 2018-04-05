@@ -2,10 +2,11 @@ require 'socket'
 require './lib/parser'
 
 class Server
-  attr_reader :request
+  attr_reader :request, :hello_counter
 
   def initialize
     server = TCPServer.new(9292)
+    @hello_counter = 0
     server_loop(server)
     @request = []
   end
@@ -15,7 +16,6 @@ class Server
     loop do
       client = server.accept
       @request = request_lines(client)
-      puts @request.inspect
       verb_path = @request[0].split[0] + ' ' + @request[0].split[1]
       get_response = response_path(verb_path, counter)
       response = "<pre>#{get_response}</pre>"
@@ -23,6 +23,7 @@ class Server
       client.puts message
       client.close
       counter += 1
+      break if verb_path == "GET /shutdown"
     end
   end
 
@@ -36,16 +37,21 @@ class Server
       headers + output
   end
 
+  def hello_world
+    @hello_counter += 1
+    "Hello World!(#{@hello_counter})"
+  end
+
   def response_path(verb_path, counter)
     if verb_path == "GET /"
       parser = Parser.new(@request)
       "#{parser.diagnostic}"
     elsif verb_path == "GET /hello"
-      "Hello World #{counter}"
+      "#{hello_world}"
     elsif verb_path == "GET /datetime"
       "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
-    else verb_path == "GET /shutdown"
-    
+    elsif verb_path == "GET /shutdown"
+      "Shuting down, total Requests:#{counter}"
     end
   end
 

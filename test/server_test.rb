@@ -1,18 +1,19 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'faraday'
 require './lib/server.rb'
 
 class ServerTest < Minitest::Test
-
-  def tests_server_accepts_requests
-    server = Server.new
-    assert_instance_of Server, server
+  def setup
+    @server = Server.new
   end
 
-  def test_assemble_message
-    server = Server.new
+  def tests_server_exists
+    assert_instance_of Server, @server
+  end
 
-    assert_equal "Hello World 1", server
+  def test_hello_counter_starts_at_zero
+    assert_equal 0, @server.hello_counter
   end
 
 end
