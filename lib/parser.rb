@@ -16,11 +16,10 @@ class Parser
     debug["Path:"] = verb_line[1]
     debug["Protocol:"] = verb_line[2]
     host_port = @request[1].split(":")
-
     debug["Host:"] = host_port[1]
     debug["Port:"] = host_port[-1]
     debug["Origin:"] = host_port[1]
-    debug["Accept:"] = @request[6]
+    debug["Accept:"] = @request[6].split(":")[1]
     debug
   end
 

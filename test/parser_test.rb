@@ -26,14 +26,14 @@ class ParserTest < Minitest::Test
 
   def test_has_diagnostic_lines
     actual = @parser.diagnostic_lines
-    expected = {"Verb:"=>  "GET", "Path:"=>"/", "Protocol:"=>"HTTP/1.1", "Host:"=>" localhost", "Port:"=>"9292", "Origin:"=>" localhost", "Accept:"=>"Accept: */*"}
+    expected = {"Verb:"=>  "GET", "Path:"=>"/", "Protocol:"=>"HTTP/1.1", "Host:"=>" localhost", "Port:"=>"9292", "Origin:"=>" localhost", "Accept:"=>" */*"}
 
     assert_equal expected, actual
   end
 
   def test_diagnostic_outputs_string
     actual = @parser.diagnostic
-    expected = "Verb: GET\nPath: /\nProtocol: HTTP/1.1\nHost:  localhost\nPort: 9292\nOrigin:  localhost\nAccept: Accept: */*\n"
+    expected = "Verb: GET\nPath: /\nProtocol: HTTP/1.1\nHost:  localhost\nPort: 9292\nOrigin:  localhost\nAccept:  */*\n"
     assert_equal expected, actual
   end
 end
