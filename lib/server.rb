@@ -27,6 +27,14 @@ class Server
     end
   end
 
+  def request_lines(client)
+    request_lines = []
+    while line = client.gets and !line.chomp.empty?
+      request_lines << line.chomp
+    end
+    request_lines
+  end
+
   def assemble_message(response)
     output = "<html><head></head><body>#{response}</body></html>"
     headers = ["http/1.1 200 ok",
@@ -42,6 +50,14 @@ class Server
     "Hello World!(#{@hello_counter})"
   end
 
+  def dictionary
+    File.readlines("/usr/share/dict/words")
+  end
+
+  def string_search(request)
+    @request[0].split[1].partition("?")
+  end
+
   def response_path(verb_path, counter)
     if verb_path == "GET /"
       parser = Parser.new(@request)
@@ -52,15 +68,9 @@ class Server
       "#{Time.now.strftime('%r on %A, %B %e, %Y')}"
     elsif verb_path == "GET /shutdown"
       "Shuting down, total Requests:#{counter}"
+    elsif verb_path == "GET /word_search"
+      "Search imminent..."
     end
-  end
-
-  def request_lines(client)
-    request_lines = []
-    while line = client.gets and !line.chomp.empty?
-      request_lines << line.chomp
-    end
-    request_lines
   end
 
 end
